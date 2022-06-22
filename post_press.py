@@ -19,7 +19,7 @@ class ReplayAction(TaskSet):
 
             url = "/test/post"
 
-            with self.client.post(url=url, data=data, headers=header,name="data_fund", catch_response=True) as response:
+            with self.client.post(url=url, data=data, headers=header,name="postPressTest", catch_response=True) as response:
 
                 if response.status_code != 200:
                     response.failure("Failed")
