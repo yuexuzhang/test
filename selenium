@@ -1,0 +1,29 @@
+#encoding=utf-8
+from selenium import webdriver
+import unittest, time
+from PIL import Image
+
+class TestDemo(unittest.TestCase):
+
+    def setUp(self):
+        self.IC = ImageCompare()
+        # 启动浏览器
+        self.driver =webdriver.Chrome(executable_path="D:\driver\chromedriver")
+
+    def test_ImageComparison(self):
+
+        url="http://www.baidu.com"
+		    # 访问百度首页
+        self.driver.get(url)
+        time.sleep(3)
+        # 访问第三个元素
+        sekf.driver.find_element_by_id('vsearchFilter')[3].click()
+        # 截取并保存在本地
+        self.driver.save_screenshot("e:\baidu.png")
+       
+    def tearDown(self):
+        # 退出浏览器
+        self.driver.quit()
+
+if __name__ == '__main__':
+    unittest.main()
