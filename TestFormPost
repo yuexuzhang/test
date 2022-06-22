@@ -1,0 +1,43 @@
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+public class TestFormPost {
+      public static void main(String[] args) throws Exception{
+        //创建一个获取连接客户端的工具
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        //创建Post请求
+        HttpPost httpPost = new HttpPost("http://127.0.0.1:8081/test_form/post");
+        //添加请求头
+        httpPost.addHeader("Content-Type","application/json;charset=UTF-8");
+        //封装请求参数
+        Map map = new HashMap();
+        map.put("content","testing message");
+        
+        JSONObject jsonString = new JSONObject(map);
+        StringEntity entity = new StringEntity(jsonString.toString(),"UTF-8");
+        //将封装的参数添加到Post请求中
+        httpPost.setEntity(entity);
+        //执行请求
+        CloseableHttpResponse response =  httpClient.execute(httpPost);
+        //获取响应的实体
+        HttpEntity responseEntity = response.getEntity();
+        //转化成字符串
+        String entityString = EntityUtils.toString(responseEntity);
+        //转换成JSON格式输出
+        JSONObject jsonObject =  JSONObject.parseObject(entityString);
+        String  string = JSON.toJSONString(jsonObject,SerializerFeature.PrettyFormat);
+        //打印返回结果
+        System.out.println(jsonObject.get("code"));
+    }
+}
